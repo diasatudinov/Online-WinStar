@@ -7,12 +7,7 @@
 
 import SwiftUI
 
-struct SettingsModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-#Preview {
-    SettingsModel()
+class SettingsModel: ObservableObject {
+    @AppStorage("soundEnabled") var soundEnabled: Bool = true
+    @AppStorage("musicEnabled") var musicEnabled: Bool = true
 }
