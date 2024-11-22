@@ -28,6 +28,7 @@ struct InfoView: View {
                 }.font(.custom(Fonts.tiltWarp.rawValue, size: 22))
                     .foregroundColor(.white)
                     .textCase(.uppercase)
+                    .minimumScaleFactor(0.5)
                     .padding()
             }.padding(.horizontal, 100).padding(.vertical, 50).padding(.top, 32)
             
