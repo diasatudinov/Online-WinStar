@@ -11,7 +11,7 @@ import SwiftUI
 struct Online_WinStarApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MenuView()
         }
     }
 }
