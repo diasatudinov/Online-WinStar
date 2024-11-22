@@ -16,7 +16,7 @@ struct MenuView: View {
     @State private var showSettings = false
     @State private var showQuiz = false
     
-//    @StateObject var achievementsVM = AchievementsViewModel()
+    @StateObject var achievementsVM = AchievementsViewModel()
 //    @StateObject var leaderboardVM = LeaderboardViewModel()
     @StateObject var settingsVM = SettingsModel()
 
@@ -166,8 +166,7 @@ struct MenuView: View {
                // LeaderboardView(viewModel: leaderboardVM)
             }
             .fullScreenCover(isPresented: $showAchievements) {
-                ContentView()
-              //  AchievementsView(viewModel: achievementsVM)
+                AchievementsView(viewModel: achievementsVM)
             }
             .fullScreenCover(isPresented: $showSettings) {
                 SettingsView(settings: settingsVM)
@@ -177,8 +176,7 @@ struct MenuView: View {
                 //RulesView()
             }
             .fullScreenCover(isPresented: $showLearnStars) {
-                ContentView()
-                //RulesView()
+                LearnView()
             }
         }
     }

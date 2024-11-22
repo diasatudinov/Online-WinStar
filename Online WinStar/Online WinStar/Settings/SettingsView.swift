@@ -73,6 +73,7 @@ struct SettingsView: View {
                         Text("Settings")
                             .font(.custom("TiltWarp-Regular", size: 32))
                             .foregroundColor(.white)
+                            .textCase(.uppercase)
                         Spacer()
                     }
                 }
