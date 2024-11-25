@@ -66,7 +66,15 @@ struct QuizView: View {
                                                 .multilineTextAlignment(.center)
                                             
                                             
-                                        }
+                                        }.overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(
+                                                    selectedOption == index && showAnswerFeedback
+                                                    ? (isCorrectAnswer ? Color.green : Color.red)
+                                                    : Color.clear,
+                                                    lineWidth: selectedOption == index && showAnswerFeedback ? 4 : 2
+                                                )
+                                        )
                                     }
                                     .disabled(showAnswerFeedback)
                                 }
@@ -78,10 +86,12 @@ struct QuizView: View {
                 } else {
                     Spacer()
                     Text("Quiz Completed!")
-                        .font(.largeTitle)
+                        .font(.custom(Fonts.tiltWarp.rawValue, size: 34))
+                        .foregroundStyle(.white)
                         .padding()
                     Text("Your Score: \(score)/\(questions.count)")
-                        .font(.title)
+                        .font(.custom(Fonts.tiltWarp.rawValue, size: 28))
+                        .foregroundStyle(.white)
                         .padding()
                     
                     Button("Return to Menu") {

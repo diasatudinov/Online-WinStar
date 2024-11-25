@@ -162,8 +162,7 @@ struct MenuView: View {
                 ContentView()
             }
             .fullScreenCover(isPresented: $showQuiz) {
-                ContentView()
-               // LeaderboardView(viewModel: leaderboardVM)
+                QuizView()
             }
             .fullScreenCover(isPresented: $showAchievements) {
                 AchievementsView(viewModel: achievementsVM)
