@@ -15,7 +15,7 @@ struct QuizView: View {
     @State private var score = 0
     @State private var showAnswerFeedback = false
     @State private var isCorrectAnswer = false
-
+    @ObservedObject var achievementsVM: AchievementsViewModel
     let viewModel = QuizViewModel()
     let columns = [
         GridItem(.flexible()),
@@ -95,7 +95,9 @@ struct QuizView: View {
                         .padding()
                     
                     Button("Return to Menu") {
-                       // achievements.quizCompleted = true
+                        if score > 14 {
+                            achievementsVM.achievementTwoDone()
+                        }
                         presentationMode.wrappedValue.dismiss()
                     }
                     .font(.title)
@@ -158,13 +160,13 @@ struct QuizView: View {
     
     func loadQuestions() {
         questions = viewModel.questions
-        //questions.shuffle()
+        questions.shuffle()
     }
 
 }
 
 #Preview {
-    QuizView()
+    QuizView(achievementsVM: AchievementsViewModel())
 }
 
 struct QuizQuestion {

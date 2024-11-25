@@ -9,16 +9,20 @@ import Foundation
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    var currentValueUpdateHandler: ((_ name: String) -> Void)?
+    var finished3rdLevel: ((_ mistakeDone: Bool) -> Void)?
+    
     private var basket: SKSpriteNode!
     private var sequence: [String] = [] // Хранит текущую последовательность
     private var currentSequenceIndex = 0
     private var isGameOver = false
     private var currentLevel = 1
     private var fallDuration = 5.0
+    private var mistakeDone = false
     
     override func didMove(to view: SKView) {
         setupScene()
-            startLevel(currentLevel)
+        startLevel(currentLevel)
     }
     
     private func setupScene() {
@@ -26,13 +30,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = .clear
         
         // Добавляем корзину
-        basket = SKSpriteNode(color: .brown, size: CGSize(width: 100, height: 50))
-        basket.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: basket.size.height / 2 + 10)
+        //basket = SKSpriteNode(color: .brown, size: CGSize(width: 100, height: 50))
+        let newTexture =  SKSpriteNode(imageNamed: "basket")
+        basket = SKSpriteNode(imageNamed: "basket")
+        
+        // Rescale the node to match the new texture while maintaining its current size
+        let aspectRatio = newTexture.size.width / newTexture.size.height
+        let newHeight = 50.0
+        let newWidth = newHeight * aspectRatio
+        basket.size = CGSize(width: newWidth, height: newHeight)
+        
+        basket.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: 75)
         addChild(basket)
         
         // Добавляем управление
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
         self.view?.addGestureRecognizer(panGesture)
+        
+        mistakeDone = false
     }
     
     private func startLevel(_ level: Int) {
@@ -60,8 +75,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if !isGameOver {
             spawnStars()
         }
-        
+        currentValueUpdateHandler?("-")
         showLevelBanner(level)
+        if level == 4 {
+            print(mistakeDone)
+            finished3rdLevel?(mistakeDone)
+        }
     }
     
     private func spawnStars() {
@@ -113,8 +132,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func handleCollectedStar(_ star: SKSpriteNode) {
         guard let starName = star.name else { return }
-
+        
         if starName == sequence[safe: currentSequenceIndex] {
+            currentValueUpdateHandler?(starName)
             currentSequenceIndex += 1
             if currentSequenceIndex >= sequence.count {
                 // Уровень завершен
@@ -124,6 +144,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         } else {
             // Игрок выбрал неправильную звезду
+            mistakeDone = true
+            currentValueUpdateHandler?("-")
             print("Wrong star collected!")
             currentSequenceIndex = 0 // Сброс последовательности
         }

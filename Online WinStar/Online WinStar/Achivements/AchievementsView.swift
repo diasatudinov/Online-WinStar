@@ -26,9 +26,9 @@ struct AchievementsView: View {
                                 TabView(selection: $currentTab) {
                                     achivementView(image: .achivement1, header: "Star Master", text: "Complete 3 levels of the main\n game without mistakes", isOpen: viewModel.achievementOne)
                                         .tag(0)
-                                    achivementView(image: .achivement2, header: "Quiz Champion", text: "Answer 15+ quiz questions \ncorrectly", isOpen: viewModel.achievementOne)
+                                    achivementView(image: .achivement2, header: "Quiz Champion", text: "Answer 15+ quiz questions \ncorrectly", isOpen: viewModel.achievementTwo)
                                         .tag(1)
-                                    achivementView(image: .achivement3, header: "Color Pro", text: "Catch 20 stars of the same color \nwithout mistakes", isOpen: viewModel.achievementOne)
+                                    achivementView(image: .achivement3, header: "Color Pro", text: "Catch 20 stars of the same color \nwithout mistakes", isOpen: viewModel.achievementThree)
                                         .tag(2)
                                 }
                                 .tabViewStyle(.page)
@@ -70,9 +70,9 @@ struct AchievementsView: View {
                                 TabView(selection: $currentTab) {
                                     achivementView(image: .achivement1, header: "Star Master", text: "Complete 3 levels of the main\n game without mistakes", isOpen: viewModel.achievementOne)
                                         .tag(0)
-                                    achivementView(image: .achivement2, header: "Quiz Champion", text: "Answer 15+ quiz questions \ncorrectly", isOpen: viewModel.achievementOne)
+                                    achivementView(image: .achivement2, header: "Quiz Champion", text: "Answer 15+ quiz questions \ncorrectly", isOpen: viewModel.achievementTwo)
                                         .tag(1)
-                                    achivementView(image: .achivement3, header: "Color Pro", text: "Catch 20 stars of the same color \nwithout mistakes", isOpen: viewModel.achievementOne)
+                                    achivementView(image: .achivement3, header: "Color Pro", text: "Catch 20 stars of the same color \nwithout mistakes", isOpen: viewModel.achievementThree)
                                         .tag(2)
                                 }
                                 .tabViewStyle(.page)

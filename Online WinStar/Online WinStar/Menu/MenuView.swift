@@ -159,10 +159,10 @@ struct MenuView: View {
 //            }
             .fullScreenCover(isPresented: $showGame) {
              //   GameView(achievementsVM: achievementsVM, leaderboardVM: leaderboardVM, settingsVM: settingsVM)
-                ContentView()
+                GameView(achievements: achievementsVM)
             }
             .fullScreenCover(isPresented: $showQuiz) {
-                QuizView()
+                QuizView(achievementsVM: achievementsVM)
             }
             .fullScreenCover(isPresented: $showAchievements) {
                 AchievementsView(viewModel: achievementsVM)
