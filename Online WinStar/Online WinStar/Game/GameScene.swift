@@ -158,7 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         banner.fontName = "AvenirNext-Bold"
         banner.fontSize = 40
         banner.fontColor = .white
-        banner.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        banner.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
         banner.zPosition = 10
         addChild(banner)
 
