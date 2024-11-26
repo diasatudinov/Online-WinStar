@@ -171,8 +171,7 @@ struct MenuView: View {
                 SettingsView(settings: settingsVM)
             }
             .fullScreenCover(isPresented: $showCatch) {
-                ContentView()
-                //RulesView()
+                CatchGameView(achievements: achievementsVM)
             }
             .fullScreenCover(isPresented: $showLearnStars) {
                 LearnView()

@@ -57,7 +57,6 @@ struct GameView: View {
                 }
                 
             }
-            
             .background(
                 Image(.background)
                     .resizable()

@@ -1,18 +1,21 @@
-//
-//  CatchGameScene.swift
-//  Online WinStar
-//
-//  Created by Dias Atudinov on 25.11.2024.
-//
+
 
 import SpriteKit
 
+enum StarColor: String {
+    case yellow = "yellow", blue = "blue"
+}
+
 class CatchGameScene: SKScene, SKPhysicsContactDelegate {
+    var scoreUpdateHandler: ((_ score: Int) -> Void)?
+    var starColorUpdateHandler: ((_ color: StarColor) -> Void)?
+    var timerUpdateHandler: ((_ timer: Int) -> Void)?
+    
+    var gameOver: ((_ mistakeDone: Bool) -> Void)?
     // MARK: - Properties
-    private var targetColor: String = "yellow" // Целевой цвет звезд
+    private var targetColor: StarColor = .yellow
     private var score: Int = 0
     private var timer: Int = 30
-    private var targetScore: Int = 10 // Количество звезд, которое нужно поймать
     
     private let targetLabel = SKLabelNode(text: "Цель: Ловить жёлтые звёзды!")
     private let scoreLabel = SKLabelNode(text: "Счёт: 0")
@@ -24,34 +27,18 @@ class CatchGameScene: SKScene, SKPhysicsContactDelegate {
     private let basketCategory: UInt32 = 0x1 << 1
     
     private var gameStarted = false
+    private var mistakeDone = false
+
     
     // MARK: - Lifecycle
     override func didMove(to view: SKView) {
-        backgroundColor = .black
+        backgroundColor = .clear
         physicsWorld.contactDelegate = self
-        
-        setupUI()
+        targetColor = Bool.random() ? .yellow : .blue
+        starColorUpdateHandler?(targetColor)
         setupBasket()
         startTimer()
         spawnStars()
-    }
-    
-    // MARK: - Setup UI
-    private func setupUI() {
-        targetLabel.fontSize = 24
-        targetLabel.fontColor = .yellow
-        targetLabel.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - UIScreen.main.bounds.height / 6)
-        addChild(targetLabel)
-        
-        scoreLabel.fontSize = 20
-        scoreLabel.fontColor = .white
-        scoreLabel.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - UIScreen.main.bounds.height / 6 - 50)
-        addChild(scoreLabel)
-        
-        timerLabel.fontSize = 20
-        timerLabel.fontColor = .red
-        timerLabel.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - UIScreen.main.bounds.height / 6 - 100)
-        addChild(timerLabel)
     }
     
     private func setupBasket() {
@@ -60,7 +47,7 @@ class CatchGameScene: SKScene, SKPhysicsContactDelegate {
         basket.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 6)
         
         //        basket.size = CGSize(width: newWidth, height: newHeight)
-        basket.size = CGSize(width: 100, height: 50)
+        basket.size = CGSize(width: 65, height: 50)
         basket.physicsBody = SKPhysicsBody(rectangleOf: basket.size)
         basket.physicsBody?.isDynamic = false // Корзина не двигается физически
         basket.physicsBody?.categoryBitMask = basketCategory
@@ -95,8 +82,7 @@ class CatchGameScene: SKScene, SKPhysicsContactDelegate {
         let wait = SKAction.wait(forDuration: 1)
         let update = SKAction.run { [weak self] in
             self?.timer -= 1
-            self?.timerLabel.text = "Осталось времени: \(self?.timer ?? 0)"
-            
+            self?.timerUpdateHandler?(self?.timer ?? 0)
             if self?.timer == 0 {
                 self?.endGame()
             }
@@ -109,7 +95,7 @@ class CatchGameScene: SKScene, SKPhysicsContactDelegate {
         let spawnAction = SKAction.run { [weak self] in
             self?.createStar()
         }
-        let waitAction = SKAction.wait(forDuration: 1)
+        let waitAction = SKAction.wait(forDuration: 0.7)
         let sequence = SKAction.sequence([spawnAction, waitAction])
         run(SKAction.repeatForever(sequence))
     }
@@ -132,20 +118,6 @@ class CatchGameScene: SKScene, SKPhysicsContactDelegate {
         
         
     }
-    //    let starColor = Bool.random() ? "yellow" : "blue"
-    //    let star = SKSpriteNode(imageNamed: "\(starColor)Star")
-    //    star.name = starColor
-    //    star.position = CGPoint(x: CGFloat.random(in: 50...self.size.width - 50), y: frame.size.height - 50)
-    //    star.physicsBody = SKPhysicsBody(rectangleOf: star.size)
-    //    star.physicsBody?.isDynamic = true
-    //    star.physicsBody?.affectedByGravity = false
-    //    star.physicsBody?.categoryBitMask = starCategory
-    //    star.physicsBody?.contactTestBitMask = basketCategory
-    //    star.physicsBody?.collisionBitMask = 0
-    //    star.physicsBody?.velocity = CGVector(dx: 0, dy: -50)
-    //    star.physicsBody?.linearDamping = 0
-    //    addChild(star)
-    
     
     func didBegin(_ contact: SKPhysicsContact) {
         guard let star = (contact.bodyA.categoryBitMask == starCategory ? contact.bodyA.node : contact.bodyB.node) as? SKSpriteNode else { return }
@@ -153,48 +125,23 @@ class CatchGameScene: SKScene, SKPhysicsContactDelegate {
             (contact.bodyA.categoryBitMask == starCategory && contact.bodyB.categoryBitMask == basketCategory) {
             handleStarCollision(star)
         }
-        //        let firstBody = contact.bodyA
-        //        let secondBody = contact.bodyB
-        //        
-        //        // Определяем объект звезды
-        //        guard let star = (firstBody.categoryBitMask == starCategory ? firstBody.node : secondBody.node) as? SKSpriteNode else { return }
-        //        
-        //        // Проверяем столкновение с корзиной
-        ////        if (firstBody.categoryBitMask == basketCategory || secondBody.categoryBitMask == basketCategory),
-        ////           let basket = (firstBody.node?.name == "basket" ? firstBody.node : secondBody.node) as? SKSpriteNode,
-        ////           basket.name == "basket" {
-        ////            handleStarCollision(star) // Обрабатываем столкновение только звезды
-        ////        }
-        //        
-        //        if  (contact.bodyA.categoryBitMask == basketCategory && contact.bodyB.categoryBitMask == starCategory) ||
-        //                (contact.bodyA.categoryBitMask == starCategory && contact.bodyB.categoryBitMask == basketCategory) {
-        //            handleStarCollision(star)
-        //        }
     }
     
     private func handleStarCollision(_ star: SKSpriteNode) {
-        if star.name == targetColor {
+        if star.name == targetColor.rawValue {
             score += 1
         } else {
             score = 0
+            mistakeDone = true
         }
-        
-        scoreLabel.text = "Счёт: \(score)"
+        scoreUpdateHandler?(score)
         star.removeFromParent()
-        
-        //        if score >= targetScore {
-        //            endGame(won: true)
-        //        }
     }
     
     private func endGame(won: Bool = true) {
         removeAllActions()
         removeAllChildren()
         
-        let endLabel = SKLabelNode(text: won ? "Вы победили!" : "Время вышло!")
-        endLabel.fontSize = 36
-        endLabel.fontColor = won ? .green : .red
-        endLabel.position = CGPoint(x: frame.midX, y: frame.midY)
-        addChild(endLabel)
+        gameOver?(mistakeDone)
     }
 }
