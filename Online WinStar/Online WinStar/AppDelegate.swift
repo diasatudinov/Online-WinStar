@@ -1,8 +1,13 @@
-//
-//  AppDelegate.swift
-//  Online WinStar
-//
-//  Created by Dias Atudinov on 26.11.2024.
-//
 
-import Foundation
+
+import UIKit
+
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+    static var orientationLock: UIInterfaceOrientationMask = .all
+
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return AppDelegate.orientationLock
+    }
+}
