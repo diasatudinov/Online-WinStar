@@ -36,6 +36,7 @@ struct QuizView: View {
                             .foregroundColor(.white)
                             .multilineTextAlignment(.leading)
                             .textCase(.uppercase)
+                            .minimumScaleFactor(0.5)
                             .padding()
                             .background(
                                 RoundedRectangle(cornerRadius: 10)
@@ -78,9 +79,10 @@ struct QuizView: View {
                                     }
                                     .disabled(showAnswerFeedback)
                                 }
-                            }
-                            .padding()
-                        }.padding(.horizontal, 276)
+                            }.padding()
+                            
+                        }//.padding(.horizontal, 276)
+                        .frame(width: 200)
                       
                     }
                 } else {
