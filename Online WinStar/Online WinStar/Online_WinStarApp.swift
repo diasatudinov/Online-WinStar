@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct Online_WinStarApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
         WindowGroup {
-            MenuView()
+            RootView()
+                .preferredColorScheme(.light)
+           
         }
     }
 }

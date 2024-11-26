@@ -9,6 +9,7 @@ import Foundation
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    let settingsVM = SettingsModel()
     var currentValueUpdateHandler: ((_ name: String) -> Void)?
     var finished3rdLevel: ((_ mistakeDone: Bool) -> Void)?
     
@@ -134,6 +135,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let starName = star.name else { return }
         
         if starName == sequence[safe: currentSequenceIndex] {
+            if settingsVM.soundEnabled {
+                playSound(named: "takeStar.mp3")
+            }
             currentValueUpdateHandler?(starName)
             currentSequenceIndex += 1
             if currentSequenceIndex >= sequence.count {
@@ -144,6 +148,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         } else {
             // Игрок выбрал неправильную звезду
+            if settingsVM.soundEnabled {
+                playSound(named: "incorrectStar.mp3")
+            }
             mistakeDone = true
             currentValueUpdateHandler?("-")
             print("Wrong star collected!")
@@ -154,6 +161,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func showLevelBanner(_ level: Int) {
+        if settingsVM.soundEnabled {
+            playSound(named: "newLevel.mp3")
+        }
         let banner = SKLabelNode(text: "Level \(level)")
         banner.fontName = "AvenirNext-Bold"
         banner.fontSize = 40
@@ -175,6 +185,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let newPositionX = basket.position.x + translation.x
         basket.position.x = max(min(newPositionX, size.width - basket.size.width / 2), basket.size.width / 2)
     }
+    
+    func playSound(named name: String) {
+        run(SKAction.playSoundFileNamed(name, waitForCompletion: false))
+        
+    }
+    
 }
 
 // Helper для безопасного доступа к массиву

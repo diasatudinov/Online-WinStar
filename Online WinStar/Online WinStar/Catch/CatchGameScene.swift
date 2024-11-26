@@ -7,6 +7,8 @@ enum StarColor: String {
 }
 
 class CatchGameScene: SKScene, SKPhysicsContactDelegate {
+    let settingsVM = SettingsModel()
+    
     var scoreUpdateHandler: ((_ score: Int) -> Void)?
     var starColorUpdateHandler: ((_ color: StarColor) -> Void)?
     var timerUpdateHandler: ((_ timer: Int) -> Void)?
@@ -83,6 +85,11 @@ class CatchGameScene: SKScene, SKPhysicsContactDelegate {
         let update = SKAction.run { [weak self] in
             self?.timer -= 1
             self?.timerUpdateHandler?(self?.timer ?? 0)
+            if self?.timer == 3 {
+                if ((self?.settingsVM.soundEnabled) != false && (self?.settingsVM.soundEnabled) != nil) {
+                    self?.playSound(named: "lastSeconds.mp3")
+                }
+            }
             if self?.timer == 0 {
                 self?.endGame()
             }
@@ -129,8 +136,14 @@ class CatchGameScene: SKScene, SKPhysicsContactDelegate {
     
     private func handleStarCollision(_ star: SKSpriteNode) {
         if star.name == targetColor.rawValue {
+            if settingsVM.soundEnabled {
+                playSound(named: "takeStar.mp3")
+            }
             score += 1
         } else {
+            if settingsVM.soundEnabled {
+                playSound(named: "incorrectStar.mp3")
+            }
             score = 0
             mistakeDone = true
         }
@@ -143,5 +156,10 @@ class CatchGameScene: SKScene, SKPhysicsContactDelegate {
         removeAllChildren()
         
         gameOver?(mistakeDone)
+    }
+    
+    func playSound(named name: String) {
+        run(SKAction.playSoundFileNamed(name, waitForCompletion: false))
+        
     }
 }
