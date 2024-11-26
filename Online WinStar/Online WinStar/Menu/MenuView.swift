@@ -145,18 +145,18 @@ struct MenuView: View {
                     .scaledToFill()
                 
             )
-//            .onAppear {
-//                if settingsVM.musicEnabled {
-//                    MusicPlayer.shared.playMenuMusic()
-//                }
-//            }
-//            .onChange(of: settingsVM.musicEnabled) { enabled in
-//                if enabled {
-//                    MusicPlayer.shared.playMenuMusic()
-//                } else {
-//                    MusicPlayer.shared.stopBackgroundMusic()
-//                }
-//            }
+            .onAppear {
+                if settingsVM.musicEnabled {
+                    MusicPlayer.shared.playBackgroundMusic()
+                }
+            }
+            .onChange(of: settingsVM.musicEnabled) { enabled in
+                if enabled {
+                    MusicPlayer.shared.playBackgroundMusic()
+                } else {
+                    MusicPlayer.shared.stopBackgroundMusic()
+                }
+            }
             .fullScreenCover(isPresented: $showGame) {
              //   GameView(achievementsVM: achievementsVM, leaderboardVM: leaderboardVM, settingsVM: settingsVM)
                 GameView(achievements: achievementsVM)

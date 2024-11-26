@@ -17,6 +17,7 @@ struct LearnView: View {
             
             VStack(spacing: 8) {
                 Spacer()
+                Spacer()
                 HStack {
                     Button {
                         
@@ -55,10 +56,11 @@ struct LearnView: View {
                     }
                 }.padding(.bottom, 32)
                 
-              
+                Spacer()
             }
             
             VStack {
+                
                 ZStack {
                     HStack {
                         Button {
@@ -81,6 +83,7 @@ struct LearnView: View {
                             .font(.custom(Fonts.tiltWarp.rawValue, size: 32))
                             .foregroundColor(.white)
                             .textCase(.uppercase)
+                            .minimumScaleFactor(0.5)
                         Spacer()
                     }
                 }

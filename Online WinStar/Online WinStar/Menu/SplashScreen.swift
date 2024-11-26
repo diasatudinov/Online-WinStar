@@ -28,7 +28,7 @@ struct SplashScreen: View {
                             value: scale
                         )
                         .onAppear {
-                            scale = 1.2
+                            scale = 0.8
                         }
                     Spacer()
                     
