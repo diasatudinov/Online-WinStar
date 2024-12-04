@@ -35,7 +35,7 @@ struct QuizView: View {
                 if currentQuestionIndex < questions.count {
                     VStack {
                         Text("\(currentQuestionIndex + 1). \(questions[currentQuestionIndex].question)")
-                            .font(.custom(Fonts.tiltWarp.rawValue, size: 18))
+                            .font(.custom(Fonts.tiltWarp.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 30:18))
                             .foregroundColor(.white)
                             .multilineTextAlignment(.leading)
                             .textCase(.uppercase)
@@ -66,9 +66,9 @@ struct QuizView: View {
                                             Image(.quizVariant)
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(height: 50)
+                                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 95 : 50)
                                             Text("\(optionLetters[index])")
-                                                .font(.custom(Fonts.tiltWarp.rawValue, size: 18))
+                                                .font(.custom(Fonts.tiltWarp.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 35:18))
                                                 .foregroundColor(.white)
                                                 .multilineTextAlignment(.center)
                                             
@@ -88,7 +88,7 @@ struct QuizView: View {
                             }.padding()
                             
                         }//.padding(.horizontal, 276)
-                        .frame(width: 200)
+                        .frame(width: DeviceInfo.shared.deviceType == .pad ? 350:200)
                       
                     }
                 } else {
@@ -125,7 +125,7 @@ struct QuizView: View {
                         Image(.backBtn)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 50, height: 50)
+                            .frame(height: DeviceInfo.shared.deviceType == .pad ? 75 : 50)
                     }
                     Spacer()
                     if currentQuestionIndex < questions.count {
@@ -133,9 +133,9 @@ struct QuizView: View {
                             Image(.quizVariant)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: 50)
+                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 75 : 50)
                             Text("\(timeRemaining)")
-                                .font(.custom(Fonts.tiltWarp.rawValue, size: 18))
+                                .font(.custom(Fonts.tiltWarp.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 40 : 18))
                                 .foregroundColor(.white)
                             
                         }

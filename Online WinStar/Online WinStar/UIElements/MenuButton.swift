@@ -17,7 +17,7 @@ struct MenuButton: View {
                 Image("menuBtn")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 70)
+                    .frame(height: DeviceInfo.shared.deviceType == .pad ? 150:70)
                     
                 Text(text)
                     .font(.custom("TiltWarp-Regular", size: fontSize))

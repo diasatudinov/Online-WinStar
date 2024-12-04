@@ -67,7 +67,7 @@ struct CatchGameView: View {
                             Image(.backBtn)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 50, height: 50)
+                                .frame(height: DeviceInfo.shared.deviceType == .pad ? 75 : 50)
                         }
                         Spacer()
                     }

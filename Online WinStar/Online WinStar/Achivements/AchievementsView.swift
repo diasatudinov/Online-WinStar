@@ -19,6 +19,8 @@ struct AchievementsView: View {
                 ZStack {
                     
                     if isLandscape {
+                        
+                       // DeviceInfo.shared.deviceType == .pad
                         ZStack {
                         // Горизонтальная ориентация
                             VStack(spacing: 0) {
@@ -131,7 +133,7 @@ struct AchievementsView: View {
                                 Image(.backBtn)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 50, height: 50)
+                                    .frame(height: DeviceInfo.shared.deviceType == .pad ? 75 : 50)
                             }
                             
                             
@@ -165,16 +167,16 @@ struct AchievementsView: View {
                 .resizable()
                 .foregroundColor(.black)
                 .scaledToFit()
-                .frame(height: 130)
+                .frame(height: DeviceInfo.shared.deviceType == .pad ? 330 : 130)
                 .padding(.bottom, 30)
             
             Text(header)
-                .font(.custom(Fonts.tiltWarp.rawValue, size: 20))
+                .font(.custom(Fonts.tiltWarp.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 50:20))
                 .foregroundColor(.mainBlue)
                 .shadow(color: .white, radius: 2)
                 .padding(.bottom, 8)
             Text(text)
-                .font(.custom(Fonts.tiltWarp.rawValue, size: 13))
+                .font(.custom(Fonts.tiltWarp.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 46:13))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
             

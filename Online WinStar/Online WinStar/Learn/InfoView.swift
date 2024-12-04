@@ -25,7 +25,7 @@ struct InfoView: View {
                     Text(selectedInfo.title2)
                     
                     Text(selectedInfo.body)
-                }.font(.custom(Fonts.tiltWarp.rawValue, size: 22))
+                }.font(.custom(Fonts.tiltWarp.rawValue, size: DeviceInfo.shared.deviceType == .pad ? 32 : 22))
                     .foregroundColor(.white)
                     .textCase(.uppercase)
                     .minimumScaleFactor(0.5)

@@ -38,7 +38,7 @@ struct MenuView: View {
                                     Image(.settingsBtn)
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: 70)
+                                        .frame(height: DeviceInfo.shared.deviceType == .pad ? 100:70)
                                 }
                             }
                             Spacer()
@@ -47,24 +47,24 @@ struct MenuView: View {
                         HStack {
                             Spacer()
                             VStack(spacing: 25) {
-                                MenuButton(text: "Star Quiz", fontSize: 20) {
+                                MenuButton(text: "Star Quiz", fontSize: DeviceInfo.shared.deviceType == .pad ? 40:20) {
                                     showQuiz = true
                                 }
                                 
-                                MenuButton(text: "Catch & Match", fontSize: 20) {
+                                MenuButton(text: "Catch & Match", fontSize: DeviceInfo.shared.deviceType == .pad ? 40:20) {
                                     showCatch = true
                                 }
                                 
-                                MenuButton(text: "Achievements", fontSize: 20) {
+                                MenuButton(text: "Achievements", fontSize: DeviceInfo.shared.deviceType == .pad ? 40:20) {
                                     showAchievements = true
                                 }
                                 
-                                MenuButton(text: "Learn About \nStars", fontSize: 20) {
+                                MenuButton(text: "Learn About \nStars", fontSize: DeviceInfo.shared.deviceType == .pad ? 40:20) {
                                     showLearnStars = true
                                    
                                 }
                                 
-                                MenuButton(text: "PLAY", fontSize: 20) {
+                                MenuButton(text: "PLAY", fontSize: DeviceInfo.shared.deviceType == .pad ? 40:20) {
                                     showGame = true
 
                                     
@@ -85,7 +85,7 @@ struct MenuView: View {
                                     Image(.settingsBtn)
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: 70)
+                                        .frame(height: DeviceInfo.shared.deviceType == .pad ? 100:70)
                                 }
                             }
                             Spacer()
@@ -93,16 +93,16 @@ struct MenuView: View {
                         
                         VStack {
                             Spacer()
-                            VStack(spacing: 0) {
+                            VStack(spacing: DeviceInfo.shared.deviceType == .pad ? 70:0) {
                                 Spacer()
                                 HStack(spacing: 40) {
                                     Spacer()
-                                    MenuButton(text: "Star Quiz", fontSize: 20) {
+                                    MenuButton(text: "Star Quiz", fontSize: DeviceInfo.shared.deviceType == .pad ? 40:20) {
                                         showQuiz = true
                                     }
                                     .frame(height: 100)
                                     
-                                    MenuButton(text: "Catch & Match", fontSize: 20) {
+                                    MenuButton(text: "Catch & Match", fontSize: DeviceInfo.shared.deviceType == .pad ? 40:20) {
                                         showCatch = true
                                     }
                                     .frame(height: 100)
@@ -111,12 +111,12 @@ struct MenuView: View {
                                 
                                 HStack(spacing: 40) {
                                     Spacer()
-                                    MenuButton(text: "Achievements", fontSize: 20) {
+                                    MenuButton(text: "Achievements", fontSize: DeviceInfo.shared.deviceType == .pad ? 40:20) {
                                         showAchievements = true
                                     }
                                     .frame(height: 100)
                                     
-                                    MenuButton(text: "Learn About \nStars", fontSize: 20) {
+                                    MenuButton(text: "Learn About \nStars", fontSize: DeviceInfo.shared.deviceType == .pad ? 40:20) {
                                         showLearnStars = true
                                     }
                                     .frame(height: 100)
@@ -124,7 +124,7 @@ struct MenuView: View {
                                 }
                                 HStack {
                                     Spacer()
-                                    MenuButton(text: "PLAY", fontSize: 20) {
+                                    MenuButton(text: "PLAY", fontSize: DeviceInfo.shared.deviceType == .pad ? 40:20) {
                                         showGame = true
                                     }
                                     .frame(height: 100)

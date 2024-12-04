@@ -115,11 +115,11 @@ struct LearnView: View {
                 .resizable()
                 .foregroundColor(.black)
                 .scaledToFit()
-                .frame(height: 120)
+                .frame(height: DeviceInfo.shared.deviceType == .pad ? 250 : 120)
             
             
             Text(text)
-                .font(.custom(Fonts.tiltWarp.rawValue, size: 11))
+                .font(.custom(Fonts.tiltWarp.rawValue, size: DeviceInfo.shared.deviceType == .pad ?  35:11))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
             
