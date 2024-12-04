@@ -23,7 +23,10 @@ struct QuizView: View {
     ]
 
     let optionLetters = ["A", "B", "C", "D"]
-
+    @State private var timeRemaining = 10 // Time in seconds
+    @State private var timerIsRunning = false
+    @State private var timer: Timer? = nil
+    
     var body: some View {
         
         ZStack {
@@ -47,6 +50,9 @@ struct QuizView: View {
                                     )
                             )
                             .padding(.top, 50)
+                            .onChange(of: currentQuestionIndex ){ _ in
+                                startTimer()
+                            }
                         
                         
                         HStack(spacing: 0) {
@@ -121,9 +127,26 @@ struct QuizView: View {
                             .scaledToFit()
                             .frame(width: 50, height: 50)
                     }
-
-                   
                     Spacer()
+                    if currentQuestionIndex < questions.count {
+                        ZStack {
+                            Image(.quizVariant)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 50)
+                            Text("\(timeRemaining)")
+                                .font(.custom(Fonts.tiltWarp.rawValue, size: 18))
+                                .foregroundColor(.white)
+                            
+                        }
+                    }
+                    Spacer()
+                    
+                    Image(.backBtn)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .opacity(0)
                 }
                 .padding()
                 Spacer()
@@ -134,7 +157,11 @@ struct QuizView: View {
            
         
         .navigationBarHidden(true)
-        .onAppear(perform: loadQuestions)
+        .onAppear{
+            loadQuestions()
+            startTimer()
+        }
+        
         .background(
             Image(.background)
                 .resizable()
@@ -146,17 +173,20 @@ struct QuizView: View {
     }
     
     func checkAnswer() {
+        
         isCorrectAnswer = selectedOption == questions[currentQuestionIndex].correctAnswer
         if isCorrectAnswer {
             score += 1
         }
         showAnswerFeedback = true
-
+        
         // Proceed to the next question after 1 second
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             showAnswerFeedback = false
             selectedOption = nil
             currentQuestionIndex += 1
+            stopTimer()
+            
         }
     }
     
@@ -164,6 +194,34 @@ struct QuizView: View {
         questions = viewModel.questions
         questions.shuffle()
     }
+    
+    func startTimer() {
+        // Prevent multiple timers from running
+        if timerIsRunning {
+            return
+        }
+        
+        timerIsRunning = true
+        timeRemaining = 10
+        // Create and schedule the timer
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            if timeRemaining > 0 {
+                timeRemaining -= 1
+            } else {
+                timer.invalidate() // Stop the timer when it reaches 0
+                timerIsRunning = false
+                checkAnswer()
+            }
+        }
+    }
+    
+    // Function to stop the timer
+    func stopTimer() {
+           timerIsRunning = false
+           timer?.invalidate() // Invalidate the existing timer
+           timer = nil // Reset the timer reference
+           timeRemaining = 10 // Reset the time
+       }
 
 }
 
